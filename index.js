@@ -5,7 +5,6 @@
  * a request API compatible with window.fetch
  */
 
-var parse_url = require('url').parse;
 var resolve_url = require('url').resolve;
 var http = require('http');
 var https = require('https');
@@ -26,9 +25,9 @@ module.exports.default = module.exports;
 /**
  * Fetch class
  *
- * @param   Mixed    url   Absolute url or Request instance
- * @param   Object   opts  Fetch options
- * @return  Promise
+ * @param {string|Request} url
+ * @param {Object} [opts]
+ * @return {Promise<Response & Body>}
  */
 function Fetch(url, opts) {
 
