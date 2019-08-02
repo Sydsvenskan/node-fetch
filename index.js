@@ -127,16 +127,16 @@ function Fetch(url, opts) {
 			});
 		}
 
-		if (options.abortSignal) {
+		if (options.signal) {
 			var done = function () {
 				req.abort();
 				reject(new FetchError('request to ' + options.url + ' was aborted', 'request-aborted'));
 			};
 
-			options.abortSignal.addEventListener('abort', done);
+			options.signal.addEventListener('abort', done);
 
 			req.on('close', function () {
-				options.abortSignal.removeEventListener('abort', done);
+				options.signal.removeEventListener('abort', done);
 			});
 		}
 
