@@ -127,6 +127,19 @@ function Fetch(url, opts) {
 			});
 		}
 
+		if (options.abortSignal) {
+			var done = function () {
+				req.abort();
+				reject(new FetchError('request to ' + options.url + ' was aborted', 'request-aborted'));
+			};
+
+			options.abortSignal.addEventListener('abort', done);
+
+			req.on('close', function () {
+				options.abortSignal.removeEventListener('abort', done);
+			});
+		}
+
 		req.on('error', function(err) {
 			clearTimeout(reqTimeout);
 			reject(new FetchError('request to ' + options.url + ' failed, reason: ' + err.message, 'system', err));
