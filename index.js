@@ -57,6 +57,10 @@ function Fetch(url, opts) {
 			throw new Error('only http(s) protocols are supported');
 		}
 
+		if (options.signal && options.signal.aborted) {
+			reject(new FetchError('request to ' + options.url + ' skipped, abort signal is already aborted', 'request-aborted'));
+		}
+
 		var send;
 		if (options.protocol === 'https:') {
 			send = https.request;
