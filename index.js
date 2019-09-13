@@ -139,9 +139,12 @@ function Fetch(url, opts) {
 
 			options.signal.addEventListener('abort', done);
 
-			req.on('close', function () {
+			var removeListener = function () {
 				options.signal.removeEventListener('abort', done);
-			});
+			};
+
+			req.on('error', removeListener);
+			req.on('response', removeListener);
 		}
 
 		req.on('error', function(err) {
